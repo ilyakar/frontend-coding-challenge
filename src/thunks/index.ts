@@ -1,20 +1,22 @@
 import { Action } from 'redux'
-import { fetchTournaments, fetchTournamentsSuccess } from '../actions'
-import { TournamentInterface} from '../actions/tournaments.types'
+import { fetchTournaments, fetchTournamentsSuccess, fetchTournamentsError } from '../actions'
+import { API_TOURNAMENTS_URL } from '../constants/api'
 
 import { RootState } from '../store'
 import { ThunkAction } from 'redux-thunk'
 
 type ThunkResult<R> = ThunkAction<R, RootState, unknown, Action>;
-export const fetchTournamentsThunk = (): ThunkResult<Promise<string>> => async dispatch => {
-	dispatch(fetchTournaments())
+export const fetchTournamentsThunk = (): ThunkResult<void> => {
+  return dispatch => {
+		dispatch(fetchTournaments())
 
-  const retrievedTournaments: Array<TournamentInterface> = await exampleAPI()
-  dispatch(fetchTournamentsSuccess(retrievedTournaments))
-
-	return Promise.resolve('success')
-}
-
-function exampleAPI() {
-  return Promise.resolve([]) // Continue here
+    fetch(API_TOURNAMENTS_URL)
+		  .then(retrievedTournamentsData => retrievedTournamentsData.json())
+		  .then(retrievedTournamentsData => {
+	      dispatch(fetchTournamentsSuccess(retrievedTournamentsData))
+		  })
+		  .catch(error => {
+				dispatch(fetchTournamentsError(error))
+		  })
+  }
 }

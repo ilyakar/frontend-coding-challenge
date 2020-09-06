@@ -2,11 +2,13 @@ import { TournamentActionTypes, TournamentInterface, FetchTournaments, FetchTour
 
 interface TournamentState {
   loading: boolean,
-  retrievedTournaments: Array<TournamentInterface>
+  retrievedTournaments: Array<TournamentInterface>,
+  error: string
 }
 const initialState: TournamentState = {
   loading: false,
-  retrievedTournaments: []
+  retrievedTournaments: [],
+  error: ''
 }
 
 type ActionTypes = FetchTournaments | FetchTournamentsSuccess | FetchTournamentsError
@@ -18,8 +20,9 @@ const Tournaments = (state: TournamentState = initialState, action: ActionTypes)
         loading: true
       }
     }
-    
+
     case TournamentActionTypes.FETCH_TOURNAMENTS_SUCCESS: {
+      console.log('FETCH_TOURNAMENTS_SUCCESS', action.payload)
       return {
         ...state,
         loading: false,
@@ -28,9 +31,11 @@ const Tournaments = (state: TournamentState = initialState, action: ActionTypes)
     }
 
     case TournamentActionTypes.FETCH_TOURNAMENTS_ERROR: {
+      console.log('FETCH_TOURNAMENTS_ERROR', action.error)
       return {
         ... state,
-        loading: false
+        loading: false,
+        error: action.error
       }
     }
 

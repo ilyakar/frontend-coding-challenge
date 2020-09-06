@@ -7,7 +7,12 @@ const Button = styled.button`
   border-radius: 4px;
   color: ${theme.palette.primary.main};
   padding: ${theme.spacing(2)};
+  margin-right: 8px;
   ${theme.typography.button};
+
+  &:last-child {
+    margin-right: 0;
+  }
 
   &:hover {
     border: 1px solid ${theme.palette.secondary.light};

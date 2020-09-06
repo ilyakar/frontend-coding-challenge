@@ -5,8 +5,13 @@ import { Provider } from 'react-redux';
 import GlobalStyle from './GlobalStyle';
 import { store, RootState } from './store';
 import { fetchTournamentsThunk } from './thunks'
-import Container from './components/Container';
+
+import Button from './components/Button'
 import H4 from './components/H4';
+import Input from './components/Input'
+
+import Tournaments from './components/Tournaments'
+import Container from './components/Container';
 
 const App: React.FC = () => {
   const tournaments = useSelector((state: RootState) => state.tournaments);
@@ -18,16 +23,33 @@ const App: React.FC = () => {
 
   return (
     <Container>
-      <H4>FACEIT Tournaments</H4>
-      {tournaments.loading === true && (
-        <p>Loading...</p>
-      )}
-      {tournaments.loading === false && (
-        <p>LOADED</p>
-      )}
+      <header style={headerStyle}>
+        <H4>FACEIT Tournaments</H4>
+        <Input placeholder={'Search tournament...'} />
+        <Button style={createTournamentButtonStyle}>CREATE TOURNAMENT</Button>
+      </header>
+      <div>
+        {tournaments.loading === true && (
+          <p>Loading tournaments...</p>
+        )}
+        {tournaments.loading === false && tournaments.error && (
+          <p>Error: {tournaments.error}</p>
+        )}
+        {tournaments.loading === false && !tournaments.error && (
+          <Tournaments retrievedTournaments={tournaments.retrievedTournaments} />
+        )}
+      </div>
     </Container>
   );
 };
+
+const headerStyle: React.CSSProperties = {
+  marginBottom: 24
+}
+
+const createTournamentButtonStyle: React.CSSProperties = {
+  float: 'right'
+}
 
 ReactDOM.render(
   <Provider store={store}>
