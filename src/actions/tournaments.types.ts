@@ -1,10 +1,20 @@
 export enum TournamentActionTypes {
-	FETCH_TOURNAMENTS = 'FETCH_TOURNAMENTS',
+	FETCH_TOURNAMENTS_START = 'FETCH_TOURNAMENTS_START',
 	FETCH_TOURNAMENTS_SUCCESS = 'FETCH_TOURNAMENTS_SUCCESS',
-	FETCH_TOURNAMENTS_ERROR = 'FETCH_TOURNAMENTS_ERROR',
+
+	DELETE_TOURNAMENT_START = 'DELETE_TOURNAMENT_ERROR',
+	DELETE_TOURNAMENT_SUCCESS = 'DELETE_TOURNAMENT_SUCCESS',
+
+	EDIT_TOURNAMENT_START = 'EDIT_TOURNAMENT_ERROR',
+	EDIT_TOURNAMENT_SUCCESS = 'EDIT_TOURNAMENT_SUCCESS',
+
+	ADD_TOURNAMENT_START = 'ADD_TOURNAMENT_ERROR',
+	ADD_TOURNAMENT_SUCCESS = 'ADD_TOURNAMENT_SUCCESS',
+
+	TOURNAMENTS_API_ERROR = 'TOURNAMENTS_API_ERROR'
 }
 
-export interface TournamentInterface {
+export interface ITournament {
   id: string,
   name: string,
   organizer: string,
@@ -16,16 +26,26 @@ export interface TournamentInterface {
   startDate: string
 }
 
-export interface FetchTournaments {
-	type: TournamentActionTypes.FETCH_TOURNAMENTS
+export interface IFetchTournamentsStart {
+	type: TournamentActionTypes.FETCH_TOURNAMENTS_START
 }
 
-export interface FetchTournamentsSuccess {
+export interface IFetchTournamentsSuccess {
 	type: TournamentActionTypes.FETCH_TOURNAMENTS_SUCCESS,
-	payload: TournamentInterface[]
+	tournaments: ITournament[]
 }
 
-export interface FetchTournamentsError {
-	type: TournamentActionTypes.FETCH_TOURNAMENTS_ERROR,
+export interface IDeleteTournamentStart {
+	type: TournamentActionTypes.DELETE_TOURNAMENT_START,
+	tournament: ITournament
+}
+
+export interface IDeleteTournamentSuccess {
+	type: TournamentActionTypes.DELETE_TOURNAMENT_SUCCESS,
+	tournament: ITournament
+}
+
+export interface ITournamentsAPIError {
+	type: TournamentActionTypes.TOURNAMENTS_API_ERROR,
 	error: string
 }

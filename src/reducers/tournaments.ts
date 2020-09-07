@@ -1,37 +1,53 @@
-import { TournamentActionTypes, TournamentInterface, FetchTournaments, FetchTournamentsSuccess, FetchTournamentsError } from '../actions/tournaments.types'
+import { TournamentActionTypes, ITournament, IFetchTournamentsStart, IFetchTournamentsSuccess, ITournamentsAPIError, IDeleteTournamentStart, IDeleteTournamentSuccess } from '../actions/tournaments.types'
 
 interface TournamentState {
   loading: boolean,
-  retrievedTournaments: Array<TournamentInterface>,
+  tournaments: ITournament[],
   error: string
 }
 const initialState: TournamentState = {
   loading: false,
-  retrievedTournaments: [],
+  tournaments: [],
   error: ''
 }
 
-type ActionTypes = FetchTournaments | FetchTournamentsSuccess | FetchTournamentsError
+type ActionTypes = IFetchTournamentsStart |
+                   IFetchTournamentsSuccess |
+                   IDeleteTournamentStart |
+                   IDeleteTournamentSuccess |
+                   ITournamentsAPIError
+
 const Tournaments = (state: TournamentState = initialState, action: ActionTypes) => {
   switch(action.type){
-    case TournamentActionTypes.FETCH_TOURNAMENTS: {
+    case TournamentActionTypes.FETCH_TOURNAMENTS_START: {
       return {
         ...state,
-        loading: true
+        loading: true,
+        error: ''
       }
     }
 
     case TournamentActionTypes.FETCH_TOURNAMENTS_SUCCESS: {
-      console.log('FETCH_TOURNAMENTS_SUCCESS', action.payload)
+      console.log('action:', action)
       return {
         ...state,
         loading: false,
-        retrievedTournaments: action.payload
+        tournaments: action.tournaments,
+        error: ''
       }
     }
 
-    case TournamentActionTypes.FETCH_TOURNAMENTS_ERROR: {
-      console.log('FETCH_TOURNAMENTS_ERROR', action.error)
+    case TournamentActionTypes.DELETE_TOURNAMENT_SUCCESS: {
+      console.log('DELETE_TOURNAMENT_SUCCESS:', state.tournaments.filter(tournament => tournament !== action.tournament))
+      return {
+        ...state,
+        loading: false,
+        tournaments: state.tournaments.filter(tournament => tournament !== action.tournament),
+        error: ''
+      }
+    }
+
+    case TournamentActionTypes.TOURNAMENTS_API_ERROR: {
       return {
         ... state,
         loading: false,

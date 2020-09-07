@@ -1,15 +1,15 @@
 import React from 'react';
-import { TournamentInterface } from '../actions/tournaments.types';
+import { ITournament } from '../actions/tournaments.types';
 
 import Tournament from './Tournament'
 
 interface ITournamentsProps {
-  retrievedTournaments: Array<TournamentInterface>
+  tournaments: ITournament[]
 }
-const Tournaments: React.FC<ITournamentsProps> = ({ retrievedTournaments }: ITournamentsProps) => {
+const Tournaments: React.FC<ITournamentsProps> = ({ tournaments }: ITournamentsProps) => {
   return (
     <div style={tournamentsStyle}>
-      {retrievedTournaments.map((tournament: TournamentInterface) => {
+      {tournaments.map((tournament: ITournament) => {
         return <Tournament key={tournament.id} tournament={tournament} />
       })}
     </div>

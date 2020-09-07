@@ -1,21 +1,35 @@
-import { TournamentActionTypes, TournamentInterface, FetchTournaments, FetchTournamentsSuccess, FetchTournamentsError } from './tournaments.types'
+import { TournamentActionTypes, ITournament, IFetchTournamentsStart, IFetchTournamentsSuccess, IDeleteTournamentStart, IDeleteTournamentSuccess, ITournamentsAPIError } from './tournaments.types'
 
-export const fetchTournaments = (): FetchTournaments => {
+export const fetchTournamentsStart = (): IFetchTournamentsStart => {
 	return {
-		type: TournamentActionTypes.FETCH_TOURNAMENTS,
+		type: TournamentActionTypes.FETCH_TOURNAMENTS_START,
 	}
 }
 
-export const fetchTournamentsSuccess = (retrievedTournaments: Array<TournamentInterface>): FetchTournamentsSuccess => {
+export const fetchTournamentsSuccess = (tournaments: Array<ITournament>): IFetchTournamentsSuccess => {
 	return {
 		type: TournamentActionTypes.FETCH_TOURNAMENTS_SUCCESS,
-		payload: retrievedTournaments
+		tournaments: tournaments
 	}
 }
 
-export const fetchTournamentsError = (error: string): FetchTournamentsError => {
+export const tournamentsAPIError = (error: string): ITournamentsAPIError => {
 	return {
-		type: TournamentActionTypes.FETCH_TOURNAMENTS_ERROR,
+		type: TournamentActionTypes.TOURNAMENTS_API_ERROR,
 		error: error
+	}
+}
+
+export const deleteTournamentStart = (tournament: ITournament): IDeleteTournamentStart => {
+	return {
+		type: TournamentActionTypes.DELETE_TOURNAMENT_START,
+		tournament: tournament
+	}
+}
+
+export const deleteTournamentSuccess = (tournament: ITournament): IDeleteTournamentSuccess => {
+	return {
+		type: TournamentActionTypes.DELETE_TOURNAMENT_SUCCESS,
+		tournament: tournament
 	}
 }

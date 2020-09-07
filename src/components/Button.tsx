@@ -9,6 +9,7 @@ const Button = styled.button`
   padding: ${theme.spacing(2)};
   margin-right: 8px;
   ${theme.typography.button};
+  cursor: pointer;
 
   &:last-child {
     margin-right: 0;

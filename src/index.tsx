@@ -21,6 +21,10 @@ const App: React.FC = () => {
     dispatch(fetchTournamentsThunk())
   }, [])
 
+  const retryFetch = () => {
+    dispatch(fetchTournamentsThunk())
+  }
+
   return (
     <Container>
       <header style={headerStyle}>
@@ -30,13 +34,18 @@ const App: React.FC = () => {
       </header>
       <div>
         {tournaments.loading === true && (
-          <p>Loading tournaments...</p>
+          <section style={loadingSectionStyle}>
+            <p>Loading tournaments...</p>
+          </section>
         )}
         {tournaments.loading === false && tournaments.error && (
-          <p>Error: {tournaments.error}</p>
+          <section style={loadingSectionStyle}>
+            <p>Oh noes! Something went wrong.</p>
+            <Button onClick={retryFetch}>RETRY</Button>
+          </section>
         )}
         {tournaments.loading === false && !tournaments.error && (
-          <Tournaments retrievedTournaments={tournaments.retrievedTournaments} />
+          <Tournaments tournaments={tournaments.tournaments} />
         )}
       </div>
     </Container>
@@ -49,6 +58,12 @@ const headerStyle: React.CSSProperties = {
 
 const createTournamentButtonStyle: React.CSSProperties = {
   float: 'right'
+}
+
+const loadingSectionStyle: React.CSSProperties = {
+  textAlign: 'center',
+  marginTop: 10,
+  marginBottom: 10
 }
 
 ReactDOM.render(

@@ -1,13 +1,21 @@
 import React from 'react';
-import { TournamentInterface } from '../actions/tournaments.types';
+import { useDispatch } from "react-redux";
+import { ITournament } from '../actions/tournaments.types';
+import { deleteTournamentThunk } from '../thunks'
 
 import H6 from './H6'
 import Button from './Button'
 
 interface ITournamentProps {
-  tournament: TournamentInterface
+  tournament: ITournament
 }
 const Tournament: React.FC<ITournamentProps> = ({ tournament }: ITournamentProps) => {
+  const dispatch = useDispatch();
+
+  const deleteTournament = () => {
+    dispatch(deleteTournamentThunk(tournament))
+  }
+
   return (
     <div style={tournamentContainerStyle}>
       <div style={tournamentStyle}>
@@ -20,7 +28,7 @@ const Tournament: React.FC<ITournamentProps> = ({ tournament }: ITournamentProps
         </div>
         <div style={buttonsStyle}>
           <Button>EDIT</Button>
-          <Button>DELETE</Button>
+          <Button onClick={deleteTournament}>DELETE</Button>
         </div>
       </div>
     </div>
