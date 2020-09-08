@@ -1,4 +1,5 @@
-import { TournamentActionTypes, ITournament, IFetchTournamentsStart, IFetchTournamentsSuccess, ITournamentsAPIError, IDeleteTournamentStart, IDeleteTournamentSuccess } from '../actions/tournaments.types'
+import _ from 'lodash'
+import { TournamentActionTypes, ITournament, IFetchTournamentsStart, IFetchTournamentsSuccess, ITournamentsAPIError, IEditTournamentSuccess, ICreateTournamentSuccess, IDeleteTournamentSuccess } from '../actions/tournaments.types'
 
 interface TournamentState {
   loading: boolean,
@@ -13,8 +14,9 @@ const initialState: TournamentState = {
 
 type ActionTypes = IFetchTournamentsStart |
                    IFetchTournamentsSuccess |
-                   IDeleteTournamentStart |
+                   IEditTournamentSuccess |
                    IDeleteTournamentSuccess |
+                   ICreateTournamentSuccess |
                    ITournamentsAPIError
 
 const Tournaments = (state: TournamentState = initialState, action: ActionTypes) => {
@@ -28,7 +30,6 @@ const Tournaments = (state: TournamentState = initialState, action: ActionTypes)
     }
 
     case TournamentActionTypes.FETCH_TOURNAMENTS_SUCCESS: {
-      console.log('action:', action)
       return {
         ...state,
         loading: false,
@@ -37,8 +38,38 @@ const Tournaments = (state: TournamentState = initialState, action: ActionTypes)
       }
     }
 
+    case TournamentActionTypes.EDIT_TOURNAMENT_SUCCESS: {
+      // Updates the tournament inside of our *cloned* state.tournaments array
+      const updatedTournaments = state.tournaments.map((tournament) => {
+        if(tournament.id === action.updatedTournament.id){
+          return action.updatedTournament
+        }
+        else {
+          return tournament
+        }
+      })
+
+      return {
+        ...state,
+        loading: false,
+        tournaments: updatedTournaments,
+        error: ''
+      }
+    }
+
+    case TournamentActionTypes.CREATE_TOURNAMENT_SUCCESS: {
+      let updatedTournaments = _.clone(state.tournaments)
+      updatedTournaments.push(action.tournament)
+
+      return {
+        ...state,
+        loading: false,
+        tournaments: updatedTournaments,
+        error: ''
+      }
+    }
+
     case TournamentActionTypes.DELETE_TOURNAMENT_SUCCESS: {
-      console.log('DELETE_TOURNAMENT_SUCCESS:', state.tournaments.filter(tournament => tournament !== action.tournament))
       return {
         ...state,
         loading: false,

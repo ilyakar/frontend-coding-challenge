@@ -1,4 +1,4 @@
-import { TournamentActionTypes, ITournament, IFetchTournamentsStart, IFetchTournamentsSuccess, IDeleteTournamentStart, IDeleteTournamentSuccess, ITournamentsAPIError } from './tournaments.types'
+import { TournamentActionTypes, ITournament, IFetchTournamentsStart, IFetchTournamentsSuccess, IEditTournamentStart, IEditTournamentSuccess, IDeleteTournamentStart, IDeleteTournamentSuccess, ICreateTournamentStart, ICreateTournamentSuccess, ITournamentsAPIError } from './tournaments.types'
 
 export const fetchTournamentsStart = (): IFetchTournamentsStart => {
 	return {
@@ -6,7 +6,7 @@ export const fetchTournamentsStart = (): IFetchTournamentsStart => {
 	}
 }
 
-export const fetchTournamentsSuccess = (tournaments: Array<ITournament>): IFetchTournamentsSuccess => {
+export const fetchTournamentsSuccess = (tournaments: ITournament[]): IFetchTournamentsSuccess => {
 	return {
 		type: TournamentActionTypes.FETCH_TOURNAMENTS_SUCCESS,
 		tournaments: tournaments
@@ -20,9 +20,38 @@ export const tournamentsAPIError = (error: string): ITournamentsAPIError => {
 	}
 }
 
+export const editTournamentStart = (tournament: ITournament, newTournamentName: string): IEditTournamentStart => {
+	return {
+		type: TournamentActionTypes.EDIT_TOURNAMENT_START,
+		tournament: tournament,
+		newTournamentName: newTournamentName
+	}
+}
+
+export const editTournamentSuccess = (updatedTournament: ITournament): IEditTournamentSuccess => {
+	return {
+		type: TournamentActionTypes.EDIT_TOURNAMENT_SUCCESS,
+		updatedTournament: updatedTournament
+	}
+}
+
 export const deleteTournamentStart = (tournament: ITournament): IDeleteTournamentStart => {
 	return {
 		type: TournamentActionTypes.DELETE_TOURNAMENT_START,
+		tournament: tournament
+	}
+}
+
+export const createTournamentStart = (tournamentName: string): ICreateTournamentStart => {
+	return {
+		type: TournamentActionTypes.CREATE_TOURNAMENT_START,
+		tournamentName: tournamentName
+	}
+}
+
+export const createTournamentSuccess = (tournament: ITournament): ICreateTournamentSuccess => {
+	return {
+		type: TournamentActionTypes.CREATE_TOURNAMENT_SUCCESS,
 		tournament: tournament
 	}
 }

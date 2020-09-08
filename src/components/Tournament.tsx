@@ -1,7 +1,8 @@
-import React from 'react';
-import { useDispatch } from "react-redux";
-import { ITournament } from '../actions/tournaments.types';
-import { deleteTournamentThunk } from '../thunks'
+import React from 'react'
+import { useDispatch } from "react-redux"
+import { ITournament } from '../actions/tournaments.types'
+import { deleteTournamentThunk, editTournamentThunk } from '../thunks'
+import moment from 'moment'
 
 import H6 from './H6'
 import Button from './Button'
@@ -10,10 +11,18 @@ interface ITournamentProps {
   tournament: ITournament
 }
 const Tournament: React.FC<ITournamentProps> = ({ tournament }: ITournamentProps) => {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch()
 
-  const deleteTournament = () => {
+  const editTournamentButtonClick = (): void => {
+    dispatch(editTournamentThunk(tournament))
+  }
+
+  const deleteTournamentButtonClick = (): void => {
     dispatch(deleteTournamentThunk(tournament))
+  }
+
+  const startDate = (): string => {
+    return moment(tournament.startDate).format('DD/MM/YYYY, HH:mm:ss')
   }
 
   return (
@@ -24,11 +33,11 @@ const Tournament: React.FC<ITournamentProps> = ({ tournament }: ITournamentProps
           Organizer: {tournament.organizer}<br />
           Game: {tournament.game}<br />
           Participants: {tournament.participants.current}/{tournament.participants.max}<br />
-          Start: {tournament.startDate}
+          Start: { startDate() }
         </div>
         <div style={buttonsStyle}>
-          <Button>EDIT</Button>
-          <Button onClick={deleteTournament}>DELETE</Button>
+          <Button onClick={editTournamentButtonClick}>EDIT</Button>
+          <Button onClick={deleteTournamentButtonClick}>DELETE</Button>
         </div>
       </div>
     </div>

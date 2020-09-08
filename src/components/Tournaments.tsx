@@ -1,5 +1,5 @@
-import React from 'react';
-import { ITournament } from '../actions/tournaments.types';
+import React from 'react'
+import { ITournament } from '../actions/tournaments.types'
 
 import Tournament from './Tournament'
 
